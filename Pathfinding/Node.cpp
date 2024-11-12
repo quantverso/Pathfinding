@@ -7,11 +7,12 @@ Entity Node::cell{}; ///< Célula do mapa
 
 //--------------------------------------------------------------------------------------------------
 
-Node::Node() :
+Node::Node(int row, int column) :
+    row(row),
+    column(column),
     status(Status::Empty),
     distance(0),
-    parent(nullptr),
-    position({})
+    parent(nullptr)
 {
 }
 
@@ -24,7 +25,8 @@ void Node::Status(::Status status)
     // Modifica a cor da célula e desenha com base no estado e posição do nó
     if (status != Status::Visited)
     {
-        switch (status) {
+        switch (status)
+        {
         case Status::None:
         case Status::Empty:
             cell.material.Color(Color{ 35, 35, 70 });
@@ -45,7 +47,7 @@ void Node::Status(::Status status)
             cell.material.Color(Color::Magenta);
             break;
         }
-        cell.transform.Position(float(position.x), float(position.y));
+        cell.transform.Position(column * cell.width, row * cell.height);
         cell.Draw();
     }
 }

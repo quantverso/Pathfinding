@@ -89,20 +89,18 @@ private:
 
 inline double BestFirst::Heuristic1(const Node* node)
 {    
-    return Heuristic2(node) + node->Distance() * Node::cell.width;
+    return Heuristic2(node) + node->Distance();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 inline double BestFirst::Heuristic2(const Node* node)
 {
-    auto targetPosition{ Map::target->Position() };
-    auto nodePosition{ node->Position() };
     return sqrt(
-        (targetPosition.x - nodePosition.x) *
-        (targetPosition.x - nodePosition.x) +
-        (targetPosition.y - nodePosition.y) *
-        (targetPosition.y - nodePosition.y)
+        (Map::target->column - node->column) *
+        (Map::target->column - node->column) +
+        (Map::target->row - node->row) *
+        (Map::target->row - node->row)
     );
 }
 

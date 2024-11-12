@@ -3,7 +3,6 @@
 
 //--------------------------------------------------------------------------------------------------
 
-#include "Scene.h"
 #include "Node.h"
 #include "Clock.h"
 #include <vector>
@@ -18,30 +17,30 @@ class Map
 {
 public:
     static Node* root;   ///< Ponteiro para o nó raiz
-    static Node* target; ///< Pointeiro para o nó objetivo
+    static Node* target; ///< Ponteiro para o nó objetivo
 
     Map(int cellSize);
     ~Map();
-    void Modify(Status status);    
+    void Modify(Status status);
     void Reset();
     void LoadImage(Status status, Color color, int tolerance, const char* file);
     void GetAdjacent(vector<Node*>& adjacent, Node* current);
-    int Size();
+    int Size() const;
 
 private:
     const int	 cellSize;   ///< Tamanho da célula
     const int	 rows;       ///< Linhas
     const int	 columns;    ///< Colunas
     vector<Node> nodes;      ///< Vetor de nós
-    int          nodesCount; ///< Quantidade de nós válidos
+    int          validNodes; ///< Quantidade de nós válidos
     Clock		 clock;      ///< Relógio
 };
 
 //--------------------------------------------------------------------------------------------------
 
-inline int Map::Size()
+inline int Map::Size() const
 {
-    return nodesCount;
+    return validNodes;
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -12,27 +12,30 @@ Map::Map(int cellSize) :
 	cellSize(cellSize),
 	rows(Engine::window.height / cellSize),
 	columns(Engine::window.width / cellSize),
-	nodesCount(0)
+	validNodes(0)
 {
-	nodes.resize(size_t(rows * columns));
+	// Instancia os nós
+	nodes.reserve(size_t(rows * columns));
+	for (int i{}; i < rows; i++)
+		for (int j{}; j < columns; j++)
+			nodes.emplace_back(Node{ i, j });
 
 	// Carrega célula para desenhar
 	Node::cell.material.Add("Resources/Cell.png");
 	Node::cell.transform.Size(float(cellSize), float(cellSize));
-	for (int i{}; i < nodes.size(); i++)
-		nodes[i].Position(i % columns * cellSize, i / columns * cellSize);
 
-	// Imagem da interface
+	// Carrega imagem da interface
 	LoadImage(Status::None, { 33, 33, 33, 233 }, 15, "Resources/Interface.png");
 
-	// Inicializa nós vazios
+	// Inicializa nós com estado vazio
 	Engine::window.Clear(35, 35, 70);
-	for (auto& node : nodes)
+	for (auto& node : nodes) {
 		if (node.Status() != Status::None)
 		{
 			node.Status(Status::Empty);
-			nodesCount++;
+			validNodes++;
 		}
+	}
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -163,24 +166,22 @@ void Map::LoadImage(Status status, Color color, int tolerance, const char* file)
 
 //--------------------------------------------------------------------------------------------------
 
-void Map::GetAdjacent(vector<Node*>& adjacent, Node* current) {
-	// Calcula índice do nó
-	int index{ int(current - nodes.data()) };
-
+void Map::GetAdjacent(vector<Node*>& adjacent, Node* current)
+{
 	// Nó acima
-	if (index >= columns)
+	if (current->column > 0)
 		adjacent.push_back(current - columns);
 
 	// Nó à direita
-	if (index % columns < (columns - 1))
+	if (current->row < rows)
 		adjacent.push_back(current + 1);
 
 	// Nó abaixo
-	if (index < (nodes.size() - columns))
+	if (current->column < columns)
 		adjacent.push_back(current + columns);
 
 	// Nó à esquerda
-	if (index % columns > 0)
+	if (current->row > 0)
 		adjacent.push_back(current - 1);
 }
 

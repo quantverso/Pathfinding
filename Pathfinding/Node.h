@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 
 enum class Status {
-    None,     ///< Sem alteração
+    None,     ///< Fora do espaço de busca
     Empty,    ///< Nó vazio
     Obstacle, ///< Nó que representa um obstáculo
     Root,     ///< Nó raiz (ponto de início da busca)
@@ -24,23 +24,23 @@ class Node
 {
 public:
     static Entity cell; ///< Célula do mapa
+    const int row;      ///< Linha do nó na matriz
+    const int column;   ///< Coluna do nó na matriz
 
-    Node();
+    Node(int row, int column);
+
     void Status(::Status status);
     void Distance(uint distance);
     void Parent(Node* parent);
-    void Position(int x, int y);
 
     ::Status Status() const;
     uint Distance() const;
     Node* Parent() const;
-    Vector2i Position() const;
 
 private:
     ::Status status;   ///< Estado do nó
     uint     distance; ///< Distância até o nó raiz
     Node*    parent;   ///< Nó pai
-    Vector2i position; ///< Posição para desenhar nó no mapa de busca
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -55,13 +55,6 @@ inline void Node::Distance(uint distance)
 inline void Node::Parent(Node* parent)
 {
     this->parent = parent;
-}
-
-//--------------------------------------------------------------------------------------------------
-
-inline void Node::Position(int x, int y)
-{
-    position = { x, y };
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -83,13 +76,6 @@ inline uint Node::Distance() const
 inline Node* Node::Parent() const
 {
     return parent;
-}
-
-//--------------------------------------------------------------------------------------------------
-
-inline Vector2i Node::Position() const
-{
-    return position;
 }
 
 //--------------------------------------------------------------------------------------------------
