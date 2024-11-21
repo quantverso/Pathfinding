@@ -15,7 +15,7 @@ DFS::DFS(Map* map, Scene* pathfinding) :
 Node* DFS::SearchRecursive(Node*& current)
 {
     // Define a distância e estado do nó
-    static int distance{};
+    static int distance;
     current->Distance(distance++);
 
     // Verifica se o estado objetivo foi alcançado
@@ -30,7 +30,6 @@ Node* DFS::SearchRecursive(Node*& current)
     pathfinding->Draw();
 
     // Acessa os nós adjacentes
-    std::vector<Node*> adjacent;
     map->GetAdjacent(adjacent, current);
 
     // Visita cada nó adjacente
@@ -51,7 +50,7 @@ Node* DFS::SearchRecursive(Node*& current)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Node* DFS::Search()
+const Node* DFS::Search()
 {
     auto result{ SearchRecursive(map->root) };
     if (result)

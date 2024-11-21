@@ -1,11 +1,6 @@
 #include "Node.h"
 
 //--------------------------------------------------------------------------------------------------
-// Inicialização de membros estáticos
-
-Entity Node::cell{}; ///< Célula do mapa
-
-//--------------------------------------------------------------------------------------------------
 
 Node::Node(int row, int column) :
     row(row),
@@ -47,7 +42,7 @@ void Node::Status(::Status status)
             cell.material.Color(Color::Magenta);
             break;
         }
-        cell.transform.Position(column * cell.width, row * cell.height);
+        cell.transform.Position(column * cell.transform.Size().width, row * cell.transform.Size().height);
         cell.Draw();
     }
 }

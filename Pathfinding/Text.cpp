@@ -3,10 +3,6 @@
 
 //--------------------------------------------------------------------------------------------------
 
-int Text::instanceCount {};
-
-//--------------------------------------------------------------------------------------------------
-
 Text::Text() :
 	size(0),
 	font(nullptr),
@@ -15,9 +11,8 @@ Text::Text() :
 	rect({}),
 	color({})
 {
-	if (instanceCount++ == 0)
-		if (TTF_Init() == -1)
-			std::cerr << "Erro ao inicializar SDL_ttf: " << TTF_GetError() << std::endl;
+	if (instances++ == 0 && TTF_Init() == -1)
+		std::cerr << "Erro ao inicializar SDL_ttf: " << TTF_GetError() << std::endl;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -29,7 +24,7 @@ Text::~Text()
 	if (font)
 		TTF_CloseFont(font);
 
-	if (--instanceCount == 0)
+	if (--instances == 0)
 	{
 		TTF_Quit();
 		Engine::window.Close();
@@ -69,35 +64,9 @@ void Text::String(const std::string& string)
 
 		SDL_FreeSurface(surface);
 		surface = nullptr;
-	}		
+	}
 	else
 		std::cerr << "Erro ao criar superficie de texto: " << TTF_GetError() << std::endl;
-}
-
-//--------------------------------------------------------------------------------------------------
-
-void Text::Position(int x, int y)
-{
-	rect.x = x;
-	rect.y = y;
-}
-
-//--------------------------------------------------------------------------------------------------
-
-void Text::Size(int w, int h)
-{
-	size = w;
-	rect.w = w;
-	rect.h = h;
-}
-
-//--------------------------------------------------------------------------------------------------
-
-void Text::Color(::Color color)
-{
-	this->color = color;
-	if (!text.empty())
-		String(text);
 }
 
 //--------------------------------------------------------------------------------------------------

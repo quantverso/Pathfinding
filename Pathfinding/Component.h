@@ -13,7 +13,7 @@ class Component
 {
 public:
 	Component(Entity*& entity);
-	virtual ~Component() {};
+	virtual ~Component() = default;
 
 protected:
 	static Window& window;	///< Referência para a janela gráfica

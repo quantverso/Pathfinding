@@ -5,19 +5,28 @@
 
 #include <SDL.h>
 
+using Rect = SDL_Rect;
+using Vector2i = SDL_Point;
+
+//--------------------------------------------------------------------------------------------------
+
+struct Vector2f
+{
+	float x, y;
+};
+
+//--------------------------------------------------------------------------------------------------
+
+struct Size
+{
+	float width, height;
+};
+
 //--------------------------------------------------------------------------------------------------
 
 class Transformable
 {
 public:
-	struct Vector2f {
-		float x, y;
-	};
-
-	struct Size {
-		float width, height;
-	};
-
 	class Offset : SDL_Point
 	{
 	public:
@@ -37,13 +46,8 @@ public:
 			y = perY ? int(height / perY) : 0;
 		}
 
-		int X() {
-			return x;
-		}
-
-		int Y() {
-			return y;
-		}
+		const int& X() const { return x; }
+		const int& Y() const { return y; }
 
 	private:
 		friend class Entity;
@@ -53,15 +57,21 @@ public:
 	};
 
 	virtual ~Transformable() = 0;
-	virtual void Update() {};
 
 	void Position(float x, float y);
+	void Position(int x, int y);
+	void Position(const Vector2f& position);
+	void Position(const Vector2i& position);
 	void Move(float x, float y);
 	void Scale(float scale);
+
+	const Vector2f& Position() const;
 
 protected:
 	Vector2f position{};
 	float	 scale{ 1 };
+
+	virtual void Refresh() {};
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -76,15 +86,34 @@ inline void Transformable::Position(float x, float y)
 {
 	position.x = x;
 	position.y = y;
-	Update();
+	Refresh();
 }
 
 //--------------------------------------------------------------------------------------------------
 
-inline void Transformable::Scale(float scale)
+inline void Transformable::Position(int x, int y)
 {
-	this->scale = scale;
-	Update();
+	position.x = float(x);
+	position.y = float(y);
+	Refresh();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+inline void Transformable::Position(const Vector2f& position)
+{
+	this->position.x = position.x;
+	this->position.y = position.y;
+	Refresh();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+inline void Transformable::Position(const Vector2i& position)
+{
+	this->position.x = float(position.x);
+	this->position.y = float(position.y);
+	Refresh();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -92,6 +121,20 @@ inline void Transformable::Scale(float scale)
 inline void Transformable::Move(float x, float y)
 {
 	Position(position.x + x, position.y + y);
+}
+
+//--------------------------------------------------------------------------------------------------
+
+inline void Transformable::Scale(float scale)
+{
+	this->scale = scale;
+}
+
+//--------------------------------------------------------------------------------------------------
+
+inline const Vector2f& Transformable::Position() const
+{
+	return position;
 }
 
 //--------------------------------------------------------------------------------------------------

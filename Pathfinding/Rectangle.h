@@ -8,58 +8,59 @@
 
 //--------------------------------------------------------------------------------------------------
 
-class Rectangle : public Shape
+class Rectangle : protected Rect, public Shape
 {
 public:
-	struct Bounds {
-		const int& left;
-		const int& top;
-		int		   right;
-		int		   bottom;
+	enum Fill
+	{
+		None,
+		Solid
 	};
 
-	const float&  width{ width_ };
-	const float&  height{ height_ };
-	const Bounds& bounds{ bounds_ };
+	struct Bounds
+	{
+		Bounds(const Rectangle* rect) : rect(rect) {}
 
-	Rectangle(bool filled = false);
+		const int& Left() const { return rect->x; }
+		const int& Top() const { return rect->y; }
+		int Right() const { return rect->x + rect->w; }
+		int Bottom() const { return rect->y + rect->h; }
 
-	void Position(float x, float y);
+	private:
+		const Rectangle* rect;
+	};
+
+	Bounds bounds;
+
+	Rectangle(Fill fill = None);
+
 	void Size(float width, float height);
 	void Scale(float scale);
-	void Move(float x, float y);
 	void Origin(float x, float y);
-	Vector2f Center() const;
+
+	const ::Size& Size() const;
+	const ::Size& Center() const;
+
+protected:
+	::Size size;
+	Offset offset;
+
+	void Refresh();
 
 private:
-	friend class Entity;
+	friend class Window;
 
-	const bool filled{};
-	float	   width_{ 100 };
-	float	   height_{ 100 };
-	Rect	   rect{ 0, 0, int(width), int(height) };
-	Bounds	   bounds_{ rect.x, rect.y };
-	Offset	   offset{};
-
-	void Update();
+	const bool fill;
 };
-
-//--------------------------------------------------------------------------------------------------
-
-inline void Rectangle::Position(float x, float y)
-{
-	Transformable::Position(x, y);
-	Update();
-}
 
 //--------------------------------------------------------------------------------------------------
 
 inline void Rectangle::Size(float width, float height)
 {
-	rect.w = int(this->width_ = width);
-	rect.h = int(this->height_ = height);
+	size.width = width;
+	size.height = height;
 	offset.Update(width, height);
-	Update();
+	Refresh();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -67,37 +68,39 @@ inline void Rectangle::Size(float width, float height)
 inline void Rectangle::Scale(float scale)
 {
 	Transformable::Scale(scale);
-	Size(width * scale, height * scale);
-}
-
-//--------------------------------------------------------------------------------------------------
-
-inline void Rectangle::Move(float x, float y)
-{
-	Position(position.x + x, position.y + y);
+	Size(size.width * scale, size.height * scale);
 }
 
 //--------------------------------------------------------------------------------------------------
 
 inline void Rectangle::Origin(float x, float y)
 {
-	offset.Position(x, y, width, height);
-	Update();
+	offset.Position(x, y, size.width, size.height);
+	Refresh();
 }
 
 //--------------------------------------------------------------------------------------------------
 
-inline Transformable::Vector2f Rectangle::Center() const
+inline const ::Size& Rectangle::Size() const
 {
-	return { rect.x + width / 2, rect.y + height / 2 };
+	return size;
 }
 
 //--------------------------------------------------------------------------------------------------
 
-inline void Rectangle::Update()
+inline const::Size& Rectangle::Center() const
 {
-	bounds_.right = rect.w + (rect.x = int(position.x) - offset.X());
-	bounds_.bottom = rect.h + (rect.y = int(position.y) - offset.Y());
+	return { x + size.width / 2, y + size.height / 2 };
+}
+
+//--------------------------------------------------------------------------------------------------
+
+inline void Rectangle::Refresh()
+{
+	x = int(position.x) - offset.X();
+	y = int(position.y) - offset.Y();
+	w = int(size.width);
+	h = int(size.height);
 }
 
 //--------------------------------------------------------------------------------------------------

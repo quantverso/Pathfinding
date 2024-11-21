@@ -2,12 +2,6 @@
 
 //--------------------------------------------------------------------------------------------------
 
-int   Pathfinder::visited{};	 ///< Quantidade de nós visitados
-Clock Pathfinder::clock{};		 ///< Usado para cronometrar tempo da busca
-float Pathfinder::timeElapsed{}; ///< Tempo decorrido da busca
-
-//--------------------------------------------------------------------------------------------------
-
 Pathfinder::Pathfinder(Map*& map) :
 	map(map)	
 {

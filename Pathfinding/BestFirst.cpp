@@ -2,11 +2,6 @@
 #include <vector>
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Inicialização de membros estáticos
-
-double (*BestFirst::h)(const Node*) {}; ///< Ponteiro para a função heurística
-
-// ---------------------------------------------------------------------------------------------------------------------
 
 BestFirst::BestFirst(Map* map, bool cost) : Pathfinder(map)
 {
@@ -19,7 +14,7 @@ BestFirst::BestFirst(Map* map, bool cost) : Pathfinder(map)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Node* BestFirst::Search()
+const Node* BestFirst::Search()
 {
 	if (!queue.empty())
 	{
@@ -37,7 +32,6 @@ Node* BestFirst::Search()
 		queue.pop();
 
 		// Acessa os nós adjacentes
-		std::vector<Node*> adjacent;
 		map->GetAdjacent(adjacent, current);
 
 		// Visita cada nó adjacente, atualiza e coloca na fila

@@ -5,17 +5,12 @@
 
 //--------------------------------------------------------------------------------------------------
 
-int Image::instanceCount{};
-
-//--------------------------------------------------------------------------------------------------
-
 Image::Image() :
 	size({}),
 	surface(nullptr)
 {
-	if (instanceCount++ == 0)
-		if (!(IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG)))
-			std::cerr << "Erro ao inicializar SDL_Image: " << IMG_GetError() << std::endl;
+	if (instances++ == 0 && !(IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG)))
+		std::cerr << "Erro ao inicializar SDL_Image: " << IMG_GetError() << std::endl;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -25,7 +20,7 @@ Image::~Image()
 	if (surface)
 		SDL_FreeSurface(surface);
 
-	if (--instanceCount == 0)
+	if (--instances == 0)
 	{
 		IMG_Quit();
 		Engine::window.Close();
@@ -44,20 +39,20 @@ void Image::Load(const char* file)
 
 	if (surface = IMG_Load(file))
 	{
-        if (surface->format->BitsPerPixel != 32)
-        {
-            if (auto converted{ SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32, 0) })
-            {
-                SDL_FreeSurface(surface);
-                surface = converted;
-            }
-            else
-                std::cerr << "Falha ao converter a superfície para 32 bits: " << SDL_GetError() << std::endl;
-        }
+		if (surface->format->BitsPerPixel != 32)
+		{
+			if (auto converted{ SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32, 0) })
+			{
+				SDL_FreeSurface(surface);
+				surface = converted;
+			}
+			else
+				std::cerr << "Falha ao converter a superfície para 32 bits: " << SDL_GetError() << std::endl;
+		}
 
 		size.width = float(surface->w);
 		size.height = float(surface->h);
-	}		
+	}
 	else
 		std::cerr << "Falha ao carregar imagem: " << IMG_GetError() << std::endl;
 }
@@ -66,30 +61,30 @@ void Image::Load(const char* file)
 
 Color Image::GetPixelColor(int x, int y) const
 {
-    Color color{};
+	Color color{};
 
-    if (!surface)
-    {
-        std::cerr << "Falha ao acessar superfície de imagem: " << IMG_GetError() << std::endl;
-        return color;
-    }
+	if (!surface)
+	{
+		std::cerr << "Falha ao acessar superfície de imagem: " << IMG_GetError() << std::endl;
+		return color;
+	}
 
-    if (x < 0 || x >= surface->w || y < 0 || y >= surface->h)
-    {
-        std::cerr << "Coordenadas fora dos limites da imagem." << std::endl;
-        return color;
-    }
+	if (x < 0 || x >= surface->w || y < 0 || y >= surface->h)
+	{
+		std::cerr << "Coordenadas fora dos limites da imagem." << std::endl;
+		return color;
+	}
 
-    SDL_LockSurface(surface);
+	SDL_LockSurface(surface);
 
-    Uint32* pixels{ (Uint32*)surface->pixels };
-    Uint32 pixelColor{ pixels[y * surface->w + x] };
+	Uint32* pixels{ (Uint32*)surface->pixels };
+	Uint32 pixelColor{ pixels[y * surface->w + x] };
 
-    SDL_GetRGBA(pixelColor, surface->format, &color.r, &color.g, &color.b, &color.a);
+	SDL_GetRGBA(pixelColor, surface->format, &color.r, &color.g, &color.b, &color.a);
 
-    SDL_UnlockSurface(surface);
+	SDL_UnlockSurface(surface);
 
-    return color;
+	return color;
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -16,8 +16,8 @@ class Pathfinder;
 class Map
 {
 public:
-    static Node* root;   ///< Ponteiro para o nó raiz
-    static Node* target; ///< Ponteiro para o nó objetivo
+    inline static Node* root;   ///< Ponteiro para o nó raiz
+    inline static Node* target; ///< Ponteiro para o nó objetivo
 
     Map(int cellSize);
     ~Map();
@@ -25,6 +25,7 @@ public:
     void Reset();
     void LoadImage(Status status, Color color, int tolerance, const char* file);
     void GetAdjacent(vector<Node*>& adjacent, Node* current);
+
     int Size() const;
 
 private:

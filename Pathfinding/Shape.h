@@ -12,10 +12,7 @@ class Window;
 class Shape : public Transformable
 {
 public:
-	const Vector2f& position; ///< Posição da forma geométrica
-
-	Shape();
-	virtual ~Shape() {};
+	virtual ~Shape() = default;
 };
 
 //--------------------------------------------------------------------------------------------------

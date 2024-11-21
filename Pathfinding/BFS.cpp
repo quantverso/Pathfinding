@@ -11,7 +11,7 @@ BFS::BFS(Map* map) : Pathfinder(map)
 
 //--------------------------------------------------------------------------------------------------
 
-Node* BFS::Search()
+const Node* BFS::Search()
 {
 	if (!queue.empty())
 	{
@@ -29,7 +29,6 @@ Node* BFS::Search()
 		queue.pop();
 
 		// Acessa os nós adjacentes
-		std::vector<Node*> adjacent;
 		map->GetAdjacent(adjacent, current);
 
 		// Visita cada nó adjacente, atualiza e coloca na fila

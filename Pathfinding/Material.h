@@ -3,33 +3,38 @@
 
 //--------------------------------------------------------------------------------------------------
 
-#include <SDL.h>
 #include "Component.h"
-#include "Texture.h"
-#include "Color.h"
 #include <memory>
+
+class Texture;
+class Color;
 
 //--------------------------------------------------------------------------------------------------
 
-class Material : public Component
+class Material : public Component, Rect
 {
 public:
-	const std::shared_ptr<Texture>& texture;
-	const ::Rect&					rect;
+	Material(Entity* entity);
 
-	Material(Entity* entity);	
-	
 	void Add(const Texture* texture);
 	void Add(const char* file);
 	void Rect(::Rect rect);
 	void Color(::Color color);
 
+	const ::Texture* Texture();
+
 private:
 	friend class Entity;
 
-	std::shared_ptr<Texture> texture_;
-	::Rect					 rect_;
+	std::shared_ptr<::Texture> texture;
 };
+
+//--------------------------------------------------------------------------------------------------
+
+inline const ::Texture* Material::Texture()
+{
+	return texture.get();
+}
 
 //--------------------------------------------------------------------------------------------------
 

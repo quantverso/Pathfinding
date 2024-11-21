@@ -31,7 +31,7 @@ public:
     /// Remove o endereço do objeto do vector objects.
     /// 
     ////////////////////////////////////////////////////////////
-    virtual ~Entity() {};
+    virtual ~Entity() = default;
 
     ////////////////////////////////////////////////////////////
     /// \brief Adiciona um componente à entidade.
@@ -90,12 +90,8 @@ private:
     ComponentsMap components; ///< Hash de components
 
 public:	
-	Material&                material;  ///< Componente padrão de textura e cores
-    Transform&               transform; ///< Componente padrão de transformação
-    const Vector2f&          position;  ///< Posição
-    const float&             width;     ///< Largura
-    const float&             height;    ///< Altura
-    const Rectangle::Bounds& bounds;    ///< Bordas
+	Material&  material;  ///< Componente padrão de textura e cores
+    Transform& transform; ///< Componente padrão de transformação
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -105,17 +101,18 @@ inline void Entity::Draw()
     if (material.texture)
         window.Draw(
             material.texture.get(),
-            &material.rect,
-            &transform.rect.rect,
+            &material,
+            &transform,
             0,
-            &transform.rect.offset
+            &transform.offset
         );
 }
 
 // ------------------------------------------------------------------------------------------------
 
 template<typename T, typename... Args>
-T* Entity::AddComponent(Args&&... args) {
+T* Entity::AddComponent(Args&&... args)
+{
     auto component{ std::make_unique<T>(this, std::forward<Args>(args)...) };
     T* componentPtr{ component.get() };
     components[typeid(T)] = std::move(component);
@@ -125,7 +122,8 @@ T* Entity::AddComponent(Args&&... args) {
 // ------------------------------------------------------------------------------------------------
 
 template<typename T>
-T* Entity::GetComponent() {
+T* Entity::GetComponent()
+{
     auto it{ components.find(std::type_index(typeid(T))) };
     if (it != components.end())
         return static_cast<T*>(it->second.get());

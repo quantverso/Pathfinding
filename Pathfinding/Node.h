@@ -7,7 +7,8 @@
 
 //--------------------------------------------------------------------------------------------------
 
-enum class Status {
+enum class Status
+{
     None,     ///< Fora do espaço de busca
     Empty,    ///< Nó vazio
     Obstacle, ///< Nó que representa um obstáculo
@@ -23,29 +24,29 @@ enum class Status {
 class Node
 {
 public:
-    static Entity cell; ///< Célula do mapa
-    const int row;      ///< Linha do nó na matriz
-    const int column;   ///< Coluna do nó na matriz
+    inline static Entity cell;   ///< Célula do mapa
+    const int            row;    ///< Linha do nó na matriz
+    const int            column; ///< Coluna do nó na matriz
 
     Node(int row, int column);
 
     void Status(::Status status);
-    void Distance(uint distance);
+    void Distance(Uint32 distance);
     void Parent(Node* parent);
 
-    ::Status Status() const;
-    uint Distance() const;
+    const ::Status Status() const;
+    const Uint32 Distance() const;
     Node* Parent() const;
 
 private:
     ::Status status;   ///< Estado do nó
-    uint     distance; ///< Distância até o nó raiz
+    Uint32   distance; ///< Distância até o nó raiz
     Node*    parent;   ///< Nó pai
 };
 
 //--------------------------------------------------------------------------------------------------
 
-inline void Node::Distance(uint distance)
+inline void Node::Distance(Uint32 distance)
 {
     this->distance = distance;
 }
@@ -59,14 +60,14 @@ inline void Node::Parent(Node* parent)
 
 //--------------------------------------------------------------------------------------------------
 
-inline ::Status Node::Status() const
+inline const ::Status Node::Status() const
 {
     return status;
 }
 
 //--------------------------------------------------------------------------------------------------
 
-inline uint Node::Distance() const
+inline const Uint32 Node::Distance() const
 {
     return distance;
 }

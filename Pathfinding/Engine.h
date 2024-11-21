@@ -4,53 +4,50 @@
 // ------------------------------------------------------------------------------------------------
 
 #include "Window.h"
-#include "Scene.h"
 
-class Entity;
+class Scene;
 
 // ------------------------------------------------------------------------------------------------
 
 ////////////////////////////////////////////////////////////
 /// class Engine
-/// \brief Classe principal responsável pelo loop, gerenciamento
+/// \brief Classe responsável pelo loop do jogo, gerenciamento
 /// de eventos e comunicação entre as demais classes.
 /// 
 ////////////////////////////////////////////////////////////
 class Engine
 {
 public:
-    static Window window;    ///< Janela gráfica 
-    static float  deltaTime; ///< Tempo decorrido entre frames
+    inline static Window window;    ///< Janela gráfica 
+    inline static float  deltaTime; ///< Tempo decorrido entre frames
 
     ////////////////////////////////////////////////////////////
-    /// \brief Contrutor padrão.
-    ///
-    /// Inicializa variáveis da classe.
+    /// \brief Carrega uma cena na Engine.
+    /// 
+    /// Este método inicializa a Engine com a cena fornecida quando chamado pela primeira vez.
+    /// Caso já exista uma cena anterior, ela será destruída e substituída pela nova cena.
+    /// 
+    /// \param scene Ponteiro para o objeto da cena do jogo a ser carregada.
+    /// 
+    /// \note Este método invoca `Loop()` para iniciar o loop principal de execução do jogo,
+    /// quando chamado pela primeira vez.
+    /// 
+    /// \warning Após o método ser executado, se uma cena anterior existia,
+    /// ela será deletada da memória e substituída pela cena atual.
     /// 
     ////////////////////////////////////////////////////////////
-    Engine();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Inicia a execução do jogo com a entidade principal
-    ///
-    /// \param entity  Ponteiro para a entidade principal do jogo
-    /// \return Retorna um código de status da execução (0 em caso de sucesso)
-    /// 
-    ////////////////////////////////////////////////////////////
-    int Run(Scene* scene);
+    static void Run(Scene* scene);
 
 private:
-    static Scene* scene; ///< Cena a ser executada
-    const char*   title; ///< Título da janela
+    inline static Scene* scene; ///< Cena atual
 
     ////////////////////////////////////////////////////////////
-    /// \brief Laço principal do jogo
-    /// O laço roda enquanto a janela gráfica estiver aberta
-    ///
-    /// \return Retorna um código de status da execução (0 em caso de sucesso)
+    /// \brief Laço principal do jogo.
+    /// 
+    /// O laço roda enquanto a janela gráfica estiver aberta.
     /// 
     ////////////////////////////////////////////////////////////
-    int Loop();
+    static void Loop();
 };
 
 // ------------------------------------------------------------------------------------------------

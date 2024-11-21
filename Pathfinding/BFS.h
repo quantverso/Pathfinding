@@ -12,7 +12,7 @@ class BFS : public Pathfinder
 {
 public:
 	BFS(Map* map);
-	Node* Search();
+	const Node* Search();
 
 private:
 	std::queue<Node*> queue; ///< FIFO

@@ -12,25 +12,19 @@ class Color;
 class Texture : Image
 {
 public:
+	using Image::Size;
+
 	Texture();
+	Texture(const char* file);
 	~Texture();
 	void Load(const char* file);
 	void Color(::Color color);
-
-	::Size Size() const;
 
 private:
 	friend class Window;
 
 	SDL_Texture* texture;
 };
-
-//--------------------------------------------------------------------------------------------------
-
-inline ::Size Texture::Size() const
-{
-	return Image::Size();
-}
 
 //--------------------------------------------------------------------------------------------------
 

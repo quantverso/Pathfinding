@@ -3,19 +3,21 @@
 
 // ------------------------------------------------------------------------------------------------
 
-#include <SDL.h>
+#include "Transformable.h"
+#include <bitset>
 
 // ------------------------------------------------------------------------------------------------
 
 class Mouse
 {
 public:
-    enum MouseButton {
-        Left     = SDL_BUTTON_LEFT,     ///< Left mouse button
-        Middle   = SDL_BUTTON_MIDDLE,   ///< Middle (wheel) mouse button
-        Right    = SDL_BUTTON_RIGHT,    ///< Right mouse button        
-        XButton1 = SDL_BUTTON_X1,       ///< Extra mouse button 1
-        XButton2 = SDL_BUTTON_X2        ///< Extra mouse button 2
+    enum MouseButton
+    {
+        Left = SDL_BUTTON_LEFT,     ///< Left mouse button
+        Middle = SDL_BUTTON_MIDDLE, ///< Middle (wheel) mouse button
+        Right = SDL_BUTTON_RIGHT,   ///< Right mouse button        
+        XButton1 = SDL_BUTTON_X1,   ///< Extra mouse button 1
+        XButton2 = SDL_BUTTON_X2    ///< Extra mouse button 2
     };
 
     ////////////////////////////////////////////////////////////
@@ -25,6 +27,7 @@ public:
     /// estiver pressionado.
     ///
     /// \param button O botão do mouse a ser verificado.
+    /// 
     /// \return true se o botão estiver pressionado, false caso contrário.
     /// 
     ////////////////////////////////////////////////////////////
@@ -38,6 +41,7 @@ public:
     /// retornará false até que o botão seja liberado e pressionado novamente.
     ///
     /// \param button O botão do mouse a ser verificado.
+    /// 
     /// \return true uma vez se o botão foi pressionado, false caso contrário.
     /// 
     ////////////////////////////////////////////////////////////
@@ -52,7 +56,7 @@ public:
     /// \return A posição global do mouse como um vetor de coordenadas (x, y).
     /// 
     ////////////////////////////////////////////////////////////
-    static SDL_Point Position();
+    static const Vector2i& Position();
 
     ////////////////////////////////////////////////////////////
     /// \brief Define a posição global do cursor do mouse.
@@ -65,45 +69,42 @@ public:
     /// 
     ////////////////////////////////////////////////////////////
     static void Position(float x, float y);
+
+private:
+    inline static std::bitset<XButton2 + 1> wasPressed;
+    inline static Vector2i position;
 };
 
 // ------------------------------------------------------------------------------------------------
 
 inline bool Mouse::ButtonPressed(MouseButton button)
 {
-    return SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(button);
+    return SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(button) ? true : wasPressed[button] = false;
 }
 
 // ------------------------------------------------------------------------------------------------
 
 inline bool Mouse::ButtonDown(MouseButton button)
 {
-    static bool wasPressed[5]{};
-
-    if (ButtonPressed(button)) {
-        if (!wasPressed[button - 1])
-            return wasPressed[button - 1] = true;
-    }
-    else
-        wasPressed[button - 1] = false;
+    if (ButtonPressed(button) && !wasPressed[button])
+        return wasPressed[button] = true;
 
     return false;
 }
 
 // ------------------------------------------------------------------------------------------------
 
-inline SDL_Point Mouse::Position()
+inline const Vector2i& Mouse::Position()
 {
-    int x, y;
-    SDL_GetMouseState(&x, &y);
-    return { x, y };
+    SDL_GetMouseState(&position.x, &position.y);
+    return position;
 }
 
 // ------------------------------------------------------------------------------------------------
 
 inline void Mouse::Position(float x, float y)
 {
-    SDL_WarpMouseInWindow(nullptr, int(x), int(y)); // Move o cursor para a posição especificada
+    SDL_WarpMouseInWindow(nullptr, int(x), int(y));
 }
 
 // ------------------------------------------------------------------------------------------------

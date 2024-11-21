@@ -5,7 +5,6 @@
 
 #include <SDL_image.h>
 #include "Transformable.h"
-using Size = Transformable::Size;
 
 class Color;
 
@@ -20,7 +19,7 @@ public:
 
 	Color GetPixelColor(int x, int y) const;
 	bool ComparePixelColor(int x, int y, Color color, int tolerance = 100) const;
-	::Size Size() const;
+	const ::Size& Size() const;
 
 protected:
 	::Size size;
@@ -28,13 +27,13 @@ protected:
 private:
 	friend class Window;
 
-	SDL_Surface* surface;
-	static int	 instanceCount;
+	SDL_Surface*	  surface;
+	inline static int instances;
 };
 
 //--------------------------------------------------------------------------------------------------
 
-inline ::Size Image::Size() const
+inline const ::Size& Image::Size() const
 {
 	return size;
 }

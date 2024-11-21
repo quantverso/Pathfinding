@@ -3,15 +3,10 @@
 
 //--------------------------------------------------------------------------------------------------
 
-Node* Map::root{};   ///< Ponteiro para o nó raiz
-Node* Map::target{}; ///< Ponteiro para o nó objetivo
-
-//--------------------------------------------------------------------------------------------------
-
 Map::Map(int cellSize) :
 	cellSize(cellSize),
-	rows(Engine::window.height / cellSize),
-	columns(Engine::window.width / cellSize),
+	rows(int(Engine::window.Size().height / cellSize)),
+	columns(int(Engine::window.Size().width / cellSize)),
 	validNodes(0)
 {
 	// Instancia os nós
@@ -28,8 +23,9 @@ Map::Map(int cellSize) :
 	LoadImage(Status::None, { 33, 33, 33, 233 }, 15, "Resources/Interface.png");
 
 	// Inicializa nós com estado vazio
-	Engine::window.Clear(35, 35, 70);
-	for (auto& node : nodes) {
+	Engine::window.Clear(Color(35, 35, 70));
+	for (auto& node : nodes)
+	{
 		if (node.Status() != Status::None)
 		{
 			node.Status(Status::Empty);
@@ -124,7 +120,8 @@ void Map::Modify(Status status)
 
 void Map::Reset()
 {
-	for (auto& node : nodes) {
+	for (auto& node : nodes)
+	{
 		if (node.Status() == Status::Path ||
 			node.Status() == Status::Explored ||
 			node.Status() == Status::Visited)
@@ -146,7 +143,8 @@ void Map::LoadImage(Status status, Color color, int tolerance, const char* file)
 	float cellWidth{ float(img.Size().width) / columns };
 	float cellHeight{ float(img.Size().height) / rows };
 
-	for (int i{}; i < rows; i++) {
+	for (int i{}; i < rows; i++)
+	{
 		for (int j{}; j < columns; j++)
 		{
 			auto& node{ nodes[size_t(i * columns + j)] };
@@ -168,6 +166,8 @@ void Map::LoadImage(Status status, Color color, int tolerance, const char* file)
 
 void Map::GetAdjacent(vector<Node*>& adjacent, Node* current)
 {
+	adjacent.clear();
+
 	// Nó acima
 	if (current->column > 0)
 		adjacent.push_back(current - columns);

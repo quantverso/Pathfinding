@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "Scene.h"
 #include "Map.h"
 #include "Node.h"
 #include "BFS.h"
@@ -139,15 +140,15 @@ void Pathfinding::Draw()
 		window.Draw(&interface);
 
 		// Busca selecionada
-		text.Size(window.width / 85, window.height / 29);
+		text.Size(window.Size().width / 85, window.Size().height / 29);
 		text.String(selected);
-		text.Position(int(window.Center().width) - text.Bounds().w / 2, 3);
+		text.Position(int(window.Center().x) - text.Bounds().w / 2, 3);
 		window.Draw(&text);
 
 		// Nós visitados
-		text.Size(window.width / 128, window.height / 36);
+		text.Size(window.Size().width / 128, window.Size().height / 36);
 		text.String("Nós visitados " + std::to_string(Pathfinder::visited));
-		text.Position(int(window.width / 42.666f), int(window.height * 0.9625f));
+		text.Position(int(window.Size().width / 42.666f), int(window.Size().height * 0.9625f));
 		window.Draw(&text);
 
 		// Tempo decorrido da busca
@@ -155,21 +156,21 @@ void Pathfinding::Draw()
 		time << std::fixed;
 		time.precision(3);
 		time << (pathfinder ? Pathfinder::clock.Count() : pathfinder->timeElapsed);
-		text.Size(window.width / 128, window.height / 36);
+		text.Size(window.Size().width / 128, window.Size().height / 36);
 		text.String("Tempo " + time.str());
-		text.Position(int(window.width / 4.266f), int(window.height * 0.9625f));
+		text.Position(int(window.Size().width / 4.266f), int(window.Size().height * 0.9625f));
 		window.Draw(&text);
 
 		// Distância do caminho encontrado
-		text.Size(window.width / 128, window.height / 36);
+		text.Size(window.Size().width / 128, window.Size().height / 36);
 		text.String("Distância " + std::to_string(map->target ? map->target->Distance() : 0));
-		text.Position(int(window.width / 2.566f), int(window.height * 0.9625f));
+		text.Position(int(window.Size().width / 2.566f), int(window.Size().height * 0.9625f));
 		window.Draw(&text);
 
 		// Quantidade de nós
-		text.Size(window.width / 128, window.height / 36);
+		text.Size(window.Size().width / 128, window.Size().height / 36);
 		text.String("Nós " + std::to_string(map->Size()));
-		text.Position(int(window.width / 1.8f), int(window.height * 0.9625f));
+		text.Position(int(window.Size().width / 1.8f), int(window.Size().height * 0.9625f));
 		window.Draw(&text);
 
 		// Reseta o contador de ciclos
@@ -183,11 +184,13 @@ void Pathfinding::Draw()
 
 //--------------------------------------------------------------------------------------------------
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-    Engine engine;
-    engine.window.Size(1280, 720);
-    return engine.Run(new Pathfinding);
+    Engine::window.Size(1280, 720);
+	Engine::window.Title("Pathfinder");
+    Engine::Run(new Pathfinding);
+
+	return 0;
 }
 
 //--------------------------------------------------------------------------------------------------

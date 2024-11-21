@@ -10,7 +10,7 @@
 class Scene
 {
 public:
-	virtual ~Scene() {};
+	virtual ~Scene() = default;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Inicializa objetos derivados desta classe.

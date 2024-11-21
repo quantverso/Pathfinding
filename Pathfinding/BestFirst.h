@@ -43,21 +43,24 @@ public:
     /// nullptr durante a busca ou nó raiz se a busca falhar.
     /// 
     ////////////////////////////////////////////////////////////
-    Node* Search();
+    const Node* Search();
 
 private:
-    static double (*h)(const Node* node); ///< Ponteiro para a função heurística
+    inline static double (*h)(const Node* node); ///< Ponteiro para a função heurística
 
     ////////////////////////////////////////////////////////////
     /// \struct CompareNode
+    /// 
     /// \brief Functor para comparar nós na fila de prioridade.
     ///
     /// Utilizado para ordenar a fila de prioridade com base na
     /// função heurística.
     /// 
     ////////////////////////////////////////////////////////////
-    struct CompareNode {
-        bool operator()(Node* a, Node* b) {
+    struct CompareNode
+    {
+        bool operator()(Node* a, Node* b)
+        {
             return h(a) > h(b);
         }
     };
