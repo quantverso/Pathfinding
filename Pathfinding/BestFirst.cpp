@@ -3,7 +3,8 @@
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-BestFirst::BestFirst(Map* map, bool cost) : Pathfinder(map)
+BestFirst::BestFirst(Map* map, bool cost) :
+	Pathfinder{ map }
 {
 	// Atribui a função heurística escolhida ao ponteiro
 	h = cost ? &Heuristic1 : &Heuristic2;

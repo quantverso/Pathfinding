@@ -152,7 +152,7 @@ void Pathfinding::Draw()
 		window.Draw(&text);
 
 		// Tempo decorrido da busca
-		std::stringstream time;
+		std::stringstream time{};
 		time << std::fixed;
 		time.precision(3);
 		time << (pathfinder ? Pathfinder::clock.Count() : pathfinder->timeElapsed);

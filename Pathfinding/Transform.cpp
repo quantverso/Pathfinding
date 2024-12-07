@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------------------------------
 
 Transform::Transform(Entity* entity) :
-	Component(entity)
+	Component{ entity }
 {
 }
 

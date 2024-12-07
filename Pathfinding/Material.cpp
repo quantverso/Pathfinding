@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------------------------
 
 Material::Material(Entity* entity) :
-	Component(entity)
+	Component{ entity }
 {
 }
 

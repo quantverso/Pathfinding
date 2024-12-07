@@ -9,8 +9,8 @@ float&	Entity::deltaTime{ Engine::deltaTime };	///< Tempo decorrido entre frames
 //--------------------------------------------------------------------------------------------------
 
 Entity::Entity() :
-	material(*AddComponent<Material>()),
-	transform(*AddComponent<Transform>())
+	material{ *AddComponent<Material>() },
+	transform{ *AddComponent<Transform>() }
 {
 }
 

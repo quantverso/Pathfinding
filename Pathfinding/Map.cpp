@@ -4,10 +4,10 @@
 //--------------------------------------------------------------------------------------------------
 
 Map::Map(int cellSize) :
-	cellSize(cellSize),
-	rows(int(Engine::window.Size().height / cellSize)),
-	columns(int(Engine::window.Size().width / cellSize)),
-	validNodes(0)
+	cellSize{ cellSize },
+	rows{ int(Engine::window.Size().height / cellSize) },
+	columns{ int(Engine::window.Size().width / cellSize) },
+	validNodes{}
 {
 	// Instancia os nós
 	nodes.reserve(size_t(rows * columns));

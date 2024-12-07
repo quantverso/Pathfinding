@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------------------------------------
 
 #include "Window.h"
+#include "Engine.h"
 
 // ------------------------------------------------------------------------------------------------
 
@@ -44,8 +45,8 @@ public:
 	virtual void Draw() {};
 
 protected:
-	static Window& window;
-	static float&  deltaTime;
+	inline static Window& window{ Engine::window };
+	inline static float&  deltaTime{ Engine::deltaTime };
 };
 
 // ------------------------------------------------------------------------------------------------

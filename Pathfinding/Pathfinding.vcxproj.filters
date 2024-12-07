@@ -48,9 +48,6 @@
     <ClCompile Include="Rectangle.cpp">
       <Filter>Engine\Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Engine\Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>Engine\Arquivos de Origem</Filter>
     </ClCompile>

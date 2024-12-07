@@ -25,7 +25,7 @@ void Engine::Run(Scene* scene)
 
 void Engine::Loop()
 {
-    Clock clock{};
+    Clock clock;
     int   cycles{};
 
     while (true)

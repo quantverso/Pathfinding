@@ -3,11 +3,11 @@
 //--------------------------------------------------------------------------------------------------
 
 Node::Node(int row, int column) :
-    row(row),
-    column(column),
-    status(Status::Empty),
-    distance(0),
-    parent(nullptr)
+    row{ row },
+    column{ column },
+    status{ Status::Empty },
+    distance{},
+    parent{}
 {
 }
 

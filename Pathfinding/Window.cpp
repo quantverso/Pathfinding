@@ -7,9 +7,9 @@ Size Window::size{ 640, 480 };
 //--------------------------------------------------------------------------------------------------
 
 Window::Window() :
-	window(nullptr),
-	renderer(nullptr),
-	event(),
+	window{},
+	renderer{},
+	event{},
 	title("Window")
 {	
 }

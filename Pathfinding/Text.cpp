@@ -4,12 +4,12 @@
 //--------------------------------------------------------------------------------------------------
 
 Text::Text() :
-	size(0),
-	font(nullptr),
-	texture(nullptr),
-	surface(nullptr),
-	rect({}),
-	color({})
+	size{},
+	font{},
+	texture{},
+	surface{},
+	rect{},
+	color{}
 {
 	if (instances++ == 0 && TTF_Init() == -1)
 		std::cerr << "Erro ao inicializar SDL_ttf: " << TTF_GetError() << std::endl;

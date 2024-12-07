@@ -3,11 +3,11 @@
 //--------------------------------------------------------------------------------------------------
 
 Rectangle::Rectangle(Fill fill) :
-    Rect({ 0, 0, 100, 100 }),
-    fill(bool(fill)),
-    bounds(this),
-    size({ 100, 100 }),
-    offset({})
+    Rect{ 0, 0, 100, 100 },
+    fill{ bool(fill) },
+    bounds{ this },
+    size{ 100, 100 },
+    offset{}
 {
     Refresh();
 }

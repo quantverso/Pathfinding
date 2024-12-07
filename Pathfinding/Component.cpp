@@ -8,7 +8,7 @@ Window& Component::window{ Engine::window }; ///< Referência para a janela gráfi
 //--------------------------------------------------------------------------------------------------
 
 Component::Component(Entity*& entity) :
-	entity(entity)
+	entity{ entity }
 {	
 }
 

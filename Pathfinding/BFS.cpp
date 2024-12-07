@@ -4,7 +4,8 @@
 
 //--------------------------------------------------------------------------------------------------
 
-BFS::BFS(Map* map) : Pathfinder(map)
+BFS::BFS(Map* map) :
+	Pathfinder{ map }
 {
 	queue.push(map->root); // Coloca o nó raiz na fila
 }

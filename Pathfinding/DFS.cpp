@@ -5,8 +5,8 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 DFS::DFS(Map* map, Scene* pathfinding) :
-    Pathfinder(map),
-    pathfinding(pathfinding)
+    Pathfinder{ map },
+    pathfinding{ pathfinding }
 {
 }
 
