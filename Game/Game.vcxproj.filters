@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="BestFirst.cpp" />
+    <ClCompile Include="BFS.cpp" />
+    <ClCompile Include="DFS.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Pathfinder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BestFirst.h" />
+    <ClInclude Include="BFS.h" />
+    <ClInclude Include="DFS.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Pathfinder.h" />
+  </ItemGroup>
+</Project>
